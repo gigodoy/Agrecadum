@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aqui va a ir la informacion de la tarea!"
+        android:textSize="20sp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center" />
+    <TextView
+        android:id="@+id/countdownTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tiempo restante: 30 segundos"
+        android:textSize="18sp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center" />
+
+</LinearLayout>
