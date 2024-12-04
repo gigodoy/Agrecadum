@@ -1,8 +1,8 @@
 pluginManagement {
     repositories {
-        google() // Repositorio oficial de Android
-        mavenCentral() // Repositorio Maven Central
-        gradlePluginPortal() // Plugins adicionales para Gradle
+        google()
+        mavenCentral()
+        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Agreducamandroid" // Nombre del proyecto
-include(":app") // Incluye el módulo principal de la app
+rootProject.name = "Agreducamandroid"
+include(":app")
