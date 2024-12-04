@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- Latitud -->
+    <TextView
+        android:id="@+id/latitudeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Latitud:"
+        android:textSize="18sp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center" />
+
+    <!-- Longitud -->
+    <TextView
+        android:id="@+id/longitudeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Longitud:"
+        android:textSize="18sp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center" />
+
+    <!-- Botón de probar ubicación -->
+    <Button
+        android:id="@+id/testLocationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Probar Ubicación"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center" />
+
+    <!-- Botón de volver -->
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Volver"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center" />
+
+</LinearLayout>

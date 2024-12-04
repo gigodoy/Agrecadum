@@ -1,31 +1,95 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="16dp">
+    android:background="#FFFFFF">
 
-    <TextView
-        android:id="@+id/countdownTextView"
+    <!-- Franja verde con el texto 'Estado del viaje' en la parte superior -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#00A898"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/statusTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Estado del viaje"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    <!-- Logo de Agreducam -->
+    <ImageView
+        android:id="@+id/logo_agreducam"
+        android:src="@drawable/logo_agreducam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Esta todo bien?"
-        android:textSize="24sp"
-        android:textColor="#FFFFFF" />
+        android:contentDescription="Logo Agreducam"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp" />
 
+    <!-- Código del viaje -->
+    <TextView
+        android:id="@+id/codeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="154133"
+        android:textSize="30sp"
+        android:textColor="#2C3E50"
+        android:layout_below="@id/logo_agreducam"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp" />
+
+    <!-- Botón Viaje Normal (Verde) -->
     <Button
         android:id="@+id/correctButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Todo Correcto"
-        android:layout_marginTop="20dp" />
+        android:text="✔ Viaje normal"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#00A898"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textSize="16sp"
+        android:layout_below="@id/codeTextView"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp" />
+
+    <!-- Botón Reportar Incidente (Rojo) -->
+    <Button
+        android:id="@+id/reportButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📞 Reportar incidente"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#E74C3C"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textSize="16sp"
+        android:layout_below="@id/correctButton"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp" />
+
+    <!-- Botón Finalizar Viaje (Amarillo) -->
     <Button
         android:id="@+id/finishButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Terminar Trabajo"
-        android:layout_centerInParent="true"/>
-
-
-</LinearLayout>
+        android:text="🔄 Finalizar viaje"
+        android:textColor="#2C3E50"
+        android:backgroundTint="#FFC00E"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textSize="16sp"
+        android:layout_below="@id/reportButton"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp" />
+</RelativeLayout>

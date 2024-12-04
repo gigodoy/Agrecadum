@@ -1,15 +1,15 @@
 package com.example.agreducamandroid;
 
 import android.Manifest;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -35,17 +35,19 @@ public class MainActivity extends AppCompatActivity {
     private Preview preview;
     private Camera camera;
     private ExecutorService cameraExecutor;
-    private TextView scannedCodeTextView;
     private MediaPlayer mediaPlayer;
     private androidx.camera.view.PreviewView previewView;
+    private Button backToDashboardButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ImageView logoImageView = findViewById(R.id.logoImageView);
+        logoImageView.setImageResource(R.drawable.logo_agreducam);
+        TextView titleTextView = findViewById(R.id.titleTextView);
+        titleTextView.setText("Escanear");
         previewView = findViewById(R.id.previewView);
-        scannedCodeTextView = findViewById(R.id.tvCode);
-        Button scanButton = findViewById(R.id.btnScan);
         mediaPlayer = MediaPlayer.create(this, R.raw.scan_sound);
         cameraExecutor = Executors.newSingleThreadExecutor();
 
@@ -55,7 +57,13 @@ public class MainActivity extends AppCompatActivity {
         } else {
             startCamera();
         }
-        scanButton.setOnClickListener(v -> scanBarcode());
+
+        backToDashboardButton = findViewById(R.id.backToDashboardButton);
+        backToDashboardButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     @OptIn(markerClass = ExperimentalGetImage.class)
@@ -83,16 +91,13 @@ public class MainActivity extends AppCompatActivity {
                                 .addOnSuccessListener(barcodes -> {
                                     for (Barcode barcode : barcodes) {
                                         String rawValue = barcode.getRawValue();
-                                        if (rawValue != null && rawValue.length() > 6) {
-                                            String processedValue = rawValue.substring(6);
-                                            runOnUiThread(() -> {
-                                                scannedCodeTextView.setText(processedValue);
-                                                scanBarcode();
-                                                // Configurar alarma después de escanear el código
-                                                Intent intent = new Intent(MainActivity.this, CodeDisplayActivity.class);
-                                                intent.putExtra("SCANNED_CODE", processedValue);
-                                                startActivity(intent);
-                                            });
+                                        if (rawValue != null && rawValue.length() > 7) {
+                                            String processedValue = rawValue.substring(6, rawValue.length() - 1);
+                                            Log.d("ScannedCode", "Processed Code: " + processedValue);
+                                            // Ahora utiliza `processedValue` en lugar de `rawValue`
+                                            Intent intent = new Intent(MainActivity.this, CodeDisplayActivity.class);
+                                            intent.putExtra("SCANNED_CODE", processedValue);
+                                            startActivity(intent);
                                         }
                                     }
                                 })
@@ -117,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
             mediaPlayer.start();
         }
     }
-
 
     @Override
     protected void onDestroy() {

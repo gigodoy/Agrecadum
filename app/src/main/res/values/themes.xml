@@ -1,9 +1,26 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Agreducamandroid" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
+    <!-- Tema personalizado para tu app -->
+    <style name="Theme.Agreducam" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Establece el color de fondo -->
+        <item name="android:windowBackground">@android:color/white</item>
 
-    <style name="Theme.Agreducamandroid" parent="Base.Theme.Agreducamandroid" />
+        <!-- Colores personalizados -->
+        <item name="colorPrimary">#00A898</item> <!-- Verde -->
+        <item name="colorPrimaryDark">#00A898</item> <!-- Verde oscuro -->
+        <item name="colorAccent">#FFC00E</item> <!-- Amarillo -->
+
+        <!-- Configuración de colores de texto -->
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:textColorSecondary">@android:color/darker_gray</item>
+
+        <!-- Personalización de la barra de estado y de navegación -->
+        <item name="android:statusBarColor">@android:color/white</item>
+        <item name="android:navigationBarColor">#EEEEEE</item> <!-- Gris para la barra de navegación -->
+
+        <!-- Estilo de botones -->
+        <item name="android:buttonStyle">@style/Widget.MaterialComponents.Button</item>
+
+        <!-- Pantalla completa -->
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>

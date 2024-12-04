@@ -58,7 +58,7 @@ public class AlertActivity extends AppCompatActivity {
     private void handleCorrectButton(String scannedCode) {
         stopAlarm();
         Intent intent = new Intent(AlertActivity.this, CountdownActivity.class);
-        intent.putExtra("SCANNED_CODE", scannedCode); // Pasar el código escaneado
+        intent.putExtra("SCANNED_CODE", scannedCode);
         startActivity(intent);
         finish();
     }
@@ -67,7 +67,7 @@ public class AlertActivity extends AppCompatActivity {
         stopAlarm();
         cancelAllAlarms();
         Toast.makeText(this, "Tarea: " + scannedCode + " Finalizada", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(AlertActivity.this, MainActivity.class);
+        Intent intent = new Intent(AlertActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
