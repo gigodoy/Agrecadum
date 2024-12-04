@@ -10,11 +10,14 @@ import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AlertActivity extends AppCompatActivity {
 
+    private TextView codeTextView; // Declaramos el TextView
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
     private PowerManager.WakeLock wakeLock;
@@ -24,8 +27,17 @@ public class AlertActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alert);
 
-        String scannedCode = getIntent().getStringExtra("SCANNED_CODE");
+        // Recuperar el código de la tarea desde el Intent
+        String scannedCode = getIntent().getStringExtra("SCANNED_CODE"); // Recibir el código escaneado del Intent
+
+        // Inicializar el TextView y configurar el texto con el código escaneado
+        codeTextView = findViewById(R.id.codeTextView); // Asegúrate de que el ID coincida con el de tu XML
+        if (scannedCode != null) {
+            codeTextView.setText("Número de Orden: " + scannedCode);  // Mostrar el código escaneado
+        }
+
         acquireWakeLock();
+
         Button correctButton = findViewById(R.id.correctButton);
         Button finishButton = findViewById(R.id.finishButton);
 
@@ -51,14 +63,16 @@ public class AlertActivity extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(this, "Error al iniciar la vibración", Toast.LENGTH_SHORT).show();
         }
+
         correctButton.setOnClickListener(v -> handleCorrectButton(scannedCode));
         finishButton.setOnClickListener(v -> handleFinishButton(scannedCode));
     }
 
     private void handleCorrectButton(String scannedCode) {
         stopAlarm();
+        Toast.makeText(this, "Contador Reiniciado", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(AlertActivity.this, CountdownActivity.class);
-        intent.putExtra("SCANNED_CODE", scannedCode);
+        intent.putExtra("SCANNED_CODE", scannedCode); // Pasar el código al CountdownActivity
         startActivity(intent);
         finish();
     }
@@ -107,11 +121,11 @@ public class AlertActivity extends AppCompatActivity {
             PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
             if (powerManager != null) {
                 wakeLock = powerManager.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE, "AgreducamAndroid:WakeLock");
-                wakeLock.acquire(10 * 60 * 1000L );
+                wakeLock.acquire(10 * 60 * 1000L ); // Mantener el teléfono despierto por 10 minutos
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Ignorar esto, se eliminara", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Alarma activada", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FFFFFF">
 
     <!-- Franja verde con el texto 'Estado del viaje' en la parte superior -->
@@ -38,7 +39,7 @@
         android:id="@+id/codeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="154133"
+        android:text=" "
         android:textSize="30sp"
         android:textColor="#2C3E50"
         android:layout_below="@id/logo_agreducam"
@@ -49,8 +50,8 @@
     <Button
         android:id="@+id/correctButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="✔ Viaje normal"
+        android:layout_height="90dp"
+        android:text="Viaje normal"
         android:textColor="#FFFFFF"
         android:backgroundTint="#00A898"
         android:paddingStart="16dp"
@@ -65,8 +66,8 @@
     <Button
         android:id="@+id/reportButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="📞 Reportar incidente"
+        android:layout_height="90dp"
+        android:text="Reportar incidente"
         android:textColor="#FFFFFF"
         android:backgroundTint="#E74C3C"
         android:paddingStart="16dp"
@@ -81,8 +82,8 @@
     <Button
         android:id="@+id/finishButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="🔄 Finalizar viaje"
+        android:layout_height="90dp"
+        android:text="Finalizar viaje"
         android:textColor="#2C3E50"
         android:backgroundTint="#FFC00E"
         android:paddingStart="16dp"
@@ -92,4 +93,5 @@
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp" />
+
 </RelativeLayout>

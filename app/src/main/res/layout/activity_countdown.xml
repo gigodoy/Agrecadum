@@ -2,22 +2,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="16dp">
+
+    <!-- Texto informativo -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aqui va a ir la informacion de la tarea!"
+        android:text="Este contador es interno dependiendo del tiempo de la tarea (COMO PRUEBA), la alarma se desplegara aunque el celular este bloqueado!"
         android:textSize="20sp"
+        android:textColor="@color/black"
         android:layout_marginBottom="20dp"
         android:gravity="center" />
+
+    <!-- Contador de tiempo -->
     <TextView
         android:id="@+id/countdownTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tiempo restante: 30 segundos"
-        android:textSize="18sp"
+        android:text="Tiempo para la alarma (Modo Prueba): 30 segundos"
+        android:textSize="22sp"
+        android:textColor="@android:color/holo_red_dark"
         android:layout_marginBottom="20dp"
         android:gravity="center" />
 
+    <!-- Número de Orden -->
+    <TextView
+        android:id="@+id/orderNumberTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        android:layout_marginTop="20dp" />
 </LinearLayout>

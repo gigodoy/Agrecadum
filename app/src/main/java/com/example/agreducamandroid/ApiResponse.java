@@ -18,21 +18,23 @@ public class ApiResponse {
     }
 
     public static class Data {
-        private String codigo;
-        private String numero_orden;
-        private String longitud_origen;
-        private String latitud_origen;
-        private String tipo_movimiento;
-        private String patente_tracto;
-        private String patente_remolque;
+        private String codigo,numero_orden,
+                longitud_origen,latitud_origen,
+                tipo_movimiento,patente_tracto,
+                patente_remolque,nombre_conductor,
+                tiempo_notificacion;
 
+
+        public String getTiempo() {
+            return tiempo_notificacion;
+        }
         public String getCodigo() {
             return codigo;
         }
         public String getNumeroOrden() {
             return numero_orden;
         }
-
+        public String getConductor(){return nombre_conductor;}
         public String getLongitud() {
             return longitud_origen;
         }
@@ -53,6 +55,9 @@ public class ApiResponse {
             return patente_remolque;
         }
 
+
+        public void setTiempo(String tiempo_notificacion){this.tiempo_notificacion = tiempo_notificacion; }
+        public void setConductor(String nombre_conductor){this.nombre_conductor = nombre_conductor; }
         public void setNumeroOrden(String numero_orden ) {
             this.numero_orden = numero_orden;
         }

@@ -115,9 +115,10 @@
     <Button
         android:id="@+id/registerButton"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="90dp"
         android:text="Registrar"
         android:backgroundTint="#00A898"
+        android:drawableLeft="@drawable/editar"
         android:textColor="#FFFFFF"
         android:layout_marginTop="32dp"
         app:layout_constraintTop_toBottomOf="@id/passwordEditText"
@@ -131,7 +132,7 @@
     <Button
         android:id="@+id/backToLoginButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:text="Volver"
         android:textColor="#000000"
         android:textSize="16sp"
@@ -142,5 +143,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:padding="16dp"
         android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
+    <TextView
+        android:id="@+id/versionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Versión 1.2.4"
+        android:textColor="#2C3E50"
+        android:textSize="14sp"
+        android:gravity="start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toTopOf="@id/bravoLogo" /> <!-- Alineación con el logo -->
+    <ImageView
+        android:id="@+id/bravoLogo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/logo_bravo_erp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

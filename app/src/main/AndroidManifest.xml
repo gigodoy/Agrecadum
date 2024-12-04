@@ -42,7 +42,10 @@
             android:exported="true">
 
         </activity>
-        <activity android:name=".UbicacionActivity" />
+        <activity android:name=".UbicacionActivity"
+            android:exported="true">
+
+        </activity>
         <activity android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
