@@ -3,7 +3,11 @@ public class RegisterResponse {
     private String status;
     private Data data;
     private int codigo;
+    private String message;
 
+    public String getMessage() {
+        return message;
+    }
     public String getStatus() {
         return status;
     }
@@ -37,6 +41,13 @@ public class RegisterResponse {
         private String updated_at;
         private String created_at;
         private int id;
+
+        private String token;
+
+        public String getToken() {
+            return token;
+        }
+
 
         public String getNombre_completo() {
             return nombre_completo;

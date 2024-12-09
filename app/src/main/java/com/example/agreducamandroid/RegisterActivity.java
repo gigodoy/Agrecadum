@@ -8,8 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.json.JSONObject;
+
+import java.util.Iterator;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,20 +26,23 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        backToLoginButton = findViewById(R.id.backToLoginButton);
+        // Inicializar vistas
         fullNameEditText = findViewById(R.id.fullNameEditText);
         rutEditText = findViewById(R.id.rutEditText);
         phoneEditText = findViewById(R.id.phoneEditText);
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         registerButton = findViewById(R.id.registerButton);
+        backToLoginButton = findViewById(R.id.backToLoginButton);
 
+        // Navegar a la pantalla de login
         backToLoginButton.setOnClickListener(v -> {
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         });
 
+        // Configurar acción del botón de registro
         registerButton.setOnClickListener(v -> {
             String fullName = fullNameEditText.getText().toString().trim();
             String rut = rutEditText.getText().toString().trim();
@@ -45,41 +50,28 @@ public class RegisterActivity extends AppCompatActivity {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
 
-            // Validaciones
-            if (fullName.isEmpty() || fullName.length() < 10) {
-                Toast.makeText(RegisterActivity.this, "Introducir nombre completo", Toast.LENGTH_SHORT).show();
-                return;
+            // Validar campos
+            if (validateInputs(fullName, rut, phone, email, password)) {
+                RegisterRequest registerRequest = new RegisterRequest(fullName, rut, phone, email, password);
+                registerUser(registerRequest);
             }
-
-            if (!isValidRut(rut)) {
-                Toast.makeText(RegisterActivity.this, "El RUT debe contener el código verificador", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (phone.length() < 6) {
-                Toast.makeText(RegisterActivity.this, "Número de teléfono válido", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (!isValidEmail(email)) {
-                Toast.makeText(RegisterActivity.this, "Ingrese un email válido", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (isEmailAlreadyRegistered(email)) {
-                Toast.makeText(RegisterActivity.this, "Email ya registrado", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (!isValidPassword(password)) {
-                Toast.makeText(RegisterActivity.this, "La contraseña debe contener solo 4 dígitos y no puede tener números consecutivos", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // Crear el objeto RegisterRequest
-            RegisterRequest registerRequest = new RegisterRequest(fullName, rut, phone, email, password);
-            registerUser(registerRequest);
         });
+    }
+
+    private boolean validateInputs(String fullName, String rut, String phone, String email, String password) {
+        if (fullName.isEmpty() || rut.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Todos los campos son obligatorios.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (phone.length() != 9) {
+            Toast.makeText(this, "El teléfono debe tener exactamente 9 dígitos.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Por favor, ingrese un correo electrónico válido.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void registerUser(RegisterRequest registerRequest) {
@@ -94,17 +86,20 @@ public class RegisterActivity extends AppCompatActivity {
                     RegisterResponse registerResponse = response.body();
 
                     if ("success".equals(registerResponse.getStatus())) {
-                        String token = registerResponse.getData().getUuid();
+                        String token = registerResponse.getData().getToken();
                         saveTokenToSharedPreferences(token);
 
+                        Toast.makeText(RegisterActivity.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(RegisterActivity.this, DashboardActivity.class);
                         startActivity(intent);
-                        finish(); // Cerrar la actividad de registro
+                        finish();
                     } else {
-                        Toast.makeText(RegisterActivity.this, "Error en el registro", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "Error: " + registerResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                } else if (response.code() == 422) {
+                    handleValidationErrors(response);
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Error al registrar: " + response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -116,45 +111,37 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    private void handleValidationErrors(Response<RegisterResponse> response) {
+        try {
+            if (response.errorBody() != null) {
+                String errorBody = response.errorBody().string();
+                JSONObject jsonObject = new JSONObject(errorBody);
+                String message = jsonObject.getString("message");
+
+                JSONObject errors = jsonObject.getJSONObject("errors");
+                StringBuilder errorMessages = new StringBuilder();
+
+                // Iterar sobre las claves de 'errors'
+                Iterator<String> keys = errors.keys();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    // Obtener el primer mensaje de error para cada campo
+                    String errorMessage = errors.getJSONArray(key).getString(0);
+                    errorMessages.append(key).append(": ").append(errorMessage).append("\n");
+                }
+
+                Toast.makeText(this, message + "\n" + errorMessages, Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Log.e("ValidationError", "Error al procesar los errores: " + e.getMessage());
+        }
+    }
+
+
     private void saveTokenToSharedPreferences(String token) {
         SharedPreferences sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("auth_token", token);  // Guardamos el token con la clave "auth_token"
-        editor.apply();  // Guardamos los cambios
-    }
-
-    // Validación para el RUT chileno
-    private boolean isValidRut(String rut) {
-        String rutPattern = "^([0-9]{7,8}-[0-9kK])$";
-        Pattern pattern = Pattern.compile(rutPattern);
-        Matcher matcher = pattern.matcher(rut);
-        return matcher.matches();
-    }
-
-    private boolean isValidEmail(String email) {
-        String emailPattern = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
-        Pattern pattern = Pattern.compile(emailPattern);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
-
-    private boolean isEmailAlreadyRegistered(String email) {
-        return false;
-    }
-
-    // Validación para la contraseña (solo números, 4 dígitos y no consecutivos)
-    private boolean isValidPassword(String password) {
-        if (password.length() != 4 || !password.matches("[0-9]{4}")) {
-            return false;
-        }
-
-        // Comprobar si los números son consecutivos
-        for (int i = 0; i < 3; i++) {
-            if (password.charAt(i) + 1 == password.charAt(i + 1) && password.charAt(i + 1) + 1 == password.charAt(i + 2) && password.charAt(i + 2) + 1 == password.charAt(i + 3)) {
-                return false;
-            }
-        }
-
-        return true;
+        editor.putString("auth_token", token);
+        editor.apply();
     }
 }

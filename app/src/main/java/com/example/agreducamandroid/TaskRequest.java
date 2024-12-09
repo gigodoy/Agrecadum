@@ -6,40 +6,39 @@ public class TaskRequest {
     private int order_type;
     private double lat;
     private double lng;
-    private boolean status;
+    private int status; // Aquí cambiaste de boolean a int
 
-    // Constructor
     public TaskRequest(int event_id, String order_number, int order_type, double lat, double lng, boolean status) {
         this.event_id = event_id;
         this.order_number = order_number;
         this.order_type = order_type;
         this.lat = lat;
         this.lng = lng;
-        this.status = status;
+        this.status = status ? 1 : 0; // Convierte booleano a int (1 para true, 0 para false)
     }
 
-    // Getters y Setters (opcional si los necesitas)
-    public int getEventId() {
+    // Getters y Setters
+    public int getEvent_id() {
         return event_id;
     }
 
-    public void setEventId(int event_id) {
+    public void setEvent_id(int event_id) {
         this.event_id = event_id;
     }
 
-    public String getOrderNumber() {
+    public String getOrder_number() {
         return order_number;
     }
 
-    public void setOrderNumber(String order_number) {
+    public void setOrder_number(String order_number) {
         this.order_number = order_number;
     }
 
-    public int getOrderType() {
+    public int getOrder_type() {
         return order_type;
     }
 
-    public void setOrderType(int order_type) {
+    public void setOrder_type(int order_type) {
         this.order_type = order_type;
     }
 
@@ -59,12 +58,11 @@ public class TaskRequest {
         this.lng = lng;
     }
 
-    public boolean isStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 }
-
