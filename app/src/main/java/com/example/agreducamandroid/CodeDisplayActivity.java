@@ -103,22 +103,37 @@ public class CodeDisplayActivity extends AppCompatActivity {
     // Método para obtener la ubicación y luego iniciar la tarea
     private void getLocationAndStartTask() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Permiso de ubicación no concedido.", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        // Intentar obtener la ubicación
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        double latitude = location != null ? location.getLatitude() : 0.0;
-        double longitude = location != null ? location.getLongitude() : 0.0;
+        if (location == null) {
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
 
-        // Iniciar la tarea con la ubicación
+        if (location == null) {
+            Toast.makeText(this, "No se pudo obtener la ubicación. Activa el GPS y vuelve a intentarlo.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
+        Log.d("LOCATION", "Latitud: " + latitude + ", Longitud: " + longitude);
+
         if (scannedCode != null) {
             startTask(scannedCode, latitude, longitude);
         }
     }
+
 
     // Método para iniciar la tarea
     private void startTask(String code, double latitude, double longitude) {

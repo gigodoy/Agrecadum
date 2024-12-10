@@ -102,7 +102,7 @@
         android:id="@+id/versionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Versión 1.2.7"
+        android:text="Versión 1.2.8"
         android:textColor="#2C3E50"
         android:textSize="14sp"
         android:gravity="start"

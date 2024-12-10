@@ -41,7 +41,7 @@ public class CountdownActivity extends AppCompatActivity {
         }
 
         // Iniciar el contador con los nuevos valores (tiempo de cuenta regresiva 30 segundos)
-        startCountdown(30000);  // 30 segundos
+        startCountdown(10000);  // 30 segundos
     }
 
     private void startCountdown(long millisInFuture) {
